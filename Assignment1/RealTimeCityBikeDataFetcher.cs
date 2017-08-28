@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using System.Net.Http;
 using System.Text;
@@ -21,17 +20,15 @@ namespace Assignment1
 
             Data stationList = JsonConvert.DeserializeObject<Data>(content);
             
-            int index;
-            int numberOfBikes = 0;
-            for(index = 0; index < stationList.stations.Length; index++)
+            foreach(Station station in stationList.stations)
             {
-                if(stationList.stations[index].name == stationName)
+                if(station.name == stationName)
                 {
-                    numberOfBikes = stationList.stations[index].bikesAvailable;
+                    return await Task.FromResult(station.bikesAvailable);
                 }
             }
 
-            return await Task.FromResult(numberOfBikes);
+            return await Task.FromResult(-1);            
         }
     }
 }

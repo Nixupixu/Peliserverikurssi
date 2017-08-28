@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace Assignment1
 {
@@ -7,10 +8,46 @@ namespace Assignment1
     {
         static void Main(string[] args)
         {
-            RealTimeCityBikeDataFetcher fetcher = new RealTimeCityBikeDataFetcher();
-            Task<int> result = fetcher.GetBikeCountInStation(args[0]);
-            result.Wait();
-            Console.WriteLine(result.Result);
+            try{
+                if(Regex.IsMatch(args[0], @"^[a-zA-Z]+$")){
+
+                    Task<int> result; 
+
+                    if(args[1] == "offline")
+                    {
+                        OfflineCityBikeDataFetcher fetcher = new OfflineCityBikeDataFetcher();
+                        result = fetcher.GetBikeCountInStation(args[0]);
+                        result.Wait();
+                    }
+                    else 
+                    {
+                        RealTimeCityBikeDataFetcher fetcher = new RealTimeCityBikeDataFetcher();
+                        result = fetcher.GetBikeCountInStation(args[0]);
+                        
+                    }
+                    
+                    if(result.Result == -1)
+                    {
+                        throw new NotFoundException(args[0]);
+                    }
+                    else
+                    {
+                        Console.WriteLine(args[0] + ": " + result.Result);
+                    }
+                }
+                else 
+                {
+                    throw new ArgumentException();
+                }
+            }
+            catch (ArgumentException)
+            {
+                Console.WriteLine("Invalid argument: " + args[0]);
+            }
+            catch (NotFoundException ex)
+            {
+                Console.WriteLine("Not found: " + ex.argument);
+            }
         }
     }
 }

@@ -670,11 +670,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\rajaniemi\\Documents\\GitHub\\Peliserverikurssi\\Peliserverikurssi.csproj",
+      "projectUniqueName": "c:\\Users\\rajaniemi\\Documents\\GitHub\\Peliserverikurssi\\Dotnettest\\Peliserverikurssi.csproj",
       "projectName": "Peliserverikurssi",
-      "projectPath": "C:\\Users\\rajaniemi\\Documents\\GitHub\\Peliserverikurssi\\Peliserverikurssi.csproj",
+      "projectPath": "c:\\Users\\rajaniemi\\Documents\\GitHub\\Peliserverikurssi\\Dotnettest\\Peliserverikurssi.csproj",
       "packagesPath": "C:\\Users\\rajaniemi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\rajaniemi\\Documents\\GitHub\\Peliserverikurssi\\obj\\",
+      "outputPath": "c:\\Users\\rajaniemi\\Documents\\GitHub\\Peliserverikurssi\\Dotnettest\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

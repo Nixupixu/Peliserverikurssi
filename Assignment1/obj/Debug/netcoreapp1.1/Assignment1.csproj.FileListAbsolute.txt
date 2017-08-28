@@ -1,0 +1,10 @@
+C:\Users\rajaniemi\Documents\GitHub\Peliserverikurssi\Assignment1\bin\Debug\netcoreapp1.1\Assignment1.deps.json
+C:\Users\rajaniemi\Documents\GitHub\Peliserverikurssi\Assignment1\bin\Debug\netcoreapp1.1\Assignment1.runtimeconfig.json
+C:\Users\rajaniemi\Documents\GitHub\Peliserverikurssi\Assignment1\bin\Debug\netcoreapp1.1\Assignment1.runtimeconfig.dev.json
+C:\Users\rajaniemi\Documents\GitHub\Peliserverikurssi\Assignment1\bin\Debug\netcoreapp1.1\Assignment1.dll
+C:\Users\rajaniemi\Documents\GitHub\Peliserverikurssi\Assignment1\bin\Debug\netcoreapp1.1\Assignment1.pdb
+C:\Users\rajaniemi\Documents\GitHub\Peliserverikurssi\Assignment1\obj\Debug\netcoreapp1.1\Assignment1.csproj.CoreCompileInputs.cache
+C:\Users\rajaniemi\Documents\GitHub\Peliserverikurssi\Assignment1\obj\Debug\netcoreapp1.1\Assignment1.AssemblyInfoInputs.cache
+C:\Users\rajaniemi\Documents\GitHub\Peliserverikurssi\Assignment1\obj\Debug\netcoreapp1.1\Assignment1.AssemblyInfo.cs
+C:\Users\rajaniemi\Documents\GitHub\Peliserverikurssi\Assignment1\obj\Debug\netcoreapp1.1\Assignment1.dll
+C:\Users\rajaniemi\Documents\GitHub\Peliserverikurssi\Assignment1\obj\Debug\netcoreapp1.1\Assignment1.pdb

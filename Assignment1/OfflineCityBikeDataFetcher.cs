@@ -13,7 +13,7 @@ namespace Assignment1
             foreach(string line in result)
             {
                 string[] splitLine = line.Split(':');
-                //Console.WriteLine("Teksti: " + splitLine[0] + " Numero: " + splitLine[1]);
+                
                 if(splitLine[0] == stationName)
                 {
                     return await Task.FromResult(Int32.Parse(splitLine[1]));

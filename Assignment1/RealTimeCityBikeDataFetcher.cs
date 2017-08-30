@@ -15,8 +15,8 @@ namespace Assignment1
                         
             HttpResponseMessage response = await httpClient.GetAsync(apiAddress);
 
-            var byteArray = response.Content.ReadAsByteArrayAsync().Result;
-            var content = Encoding.UTF8.GetString(byteArray);
+            byte[] byteArray = response.Content.ReadAsByteArrayAsync().Result;
+            string content = Encoding.UTF8.GetString(byteArray);
 
             Data stationList = JsonConvert.DeserializeObject<Data>(content);
             

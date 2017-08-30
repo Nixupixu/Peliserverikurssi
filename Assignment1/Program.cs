@@ -23,12 +23,12 @@ namespace Assignment1
                     {
                         RealTimeCityBikeDataFetcher fetcher = new RealTimeCityBikeDataFetcher();
                         result = fetcher.GetBikeCountInStation(args[0]);
-                        
+                        result.Wait();
                     }
                     
                     if(result.Result == -1)
                     {
-                        throw new NotFoundException(args[0]);
+                        throw new NotFoundException();
                     }
                     else
                     {
@@ -44,9 +44,9 @@ namespace Assignment1
             {
                 Console.WriteLine("Invalid argument: " + args[0]);
             }
-            catch (NotFoundException ex)
+            catch (NotFoundException)
             {
-                Console.WriteLine("Not found: " + ex.argument);
+                Console.WriteLine("Not found: " + args[0]);
             }
         }
     }

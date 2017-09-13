@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace gameapi.Controllers
 {
-    [Route("api/players")]
+    [Route("/api/players")]
     public class PlayersController : Controller
     {
         private PlayerProcessor _processor;
@@ -37,13 +37,13 @@ namespace gameapi.Controllers
             return _player;
         }
 
-        [HttpPut]
-        public async Task<Player> Modify(Guid id, [FromBody]ModifiedPlayer player)
+        [HttpPut("{id}")]
+        public async Task<Player> Modify(Guid id, [FromBody] Player player)
         {
             return await _processor.Modify(id, player);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public async Task<Player> Delete(Guid id)
         {
             Player _player = await _processor.Delete(id);

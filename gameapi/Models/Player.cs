@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using gameapi.Models;
 
 namespace gameapi
 {
@@ -8,6 +9,7 @@ namespace gameapi
         public Guid _id {get; set;}
         public string _Name {get; set;}
         public int _Level {get;set;}
+        public Item[] _Items {get; set;}
 
         public Player(Guid id, string Name)
         {

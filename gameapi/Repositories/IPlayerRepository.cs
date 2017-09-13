@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-//using gameapi.Models;
+using gameapi.Models;
 
 namespace gameapi.Repositories
 {
@@ -9,7 +9,9 @@ namespace gameapi.Repositories
         Task<Player> Get(Guid id);
         Task<Player[]> GetAll();
         Task<Player> Create(Player player);
-        Task<Player> Modify(Guid id, ModifiedPlayer player);
+        Task<Player> Modify(Guid id, Player player);
         Task<Player> Delete(Guid id);
+        Task<Item[]> GetAllItems(Guid id);
+        Task<Item> CreateItem(Guid id, Item item);
     }
 }

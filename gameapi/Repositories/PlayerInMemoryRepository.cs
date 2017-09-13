@@ -16,6 +16,13 @@ namespace gameapi.Repositories
     {
         Dictionary<Guid, Player> _players = new Dictionary<Guid, Player>();
 
+        public PlayerInMemoryRepository()
+        {
+             Player test = new Player(Guid.NewGuid(), "Testi");
+             Player test2 = new Player(Guid.NewGuid(), "Testi2");
+             _players.Add(test._id, test);
+             _players.Add(test2._id, test2);
+        }
         public Task<Player> Get(Guid id)
         {
             if(_players.ContainsKey(id) == false)
@@ -36,15 +43,17 @@ namespace gameapi.Repositories
             return Task.FromResult(player);
         }
 
-        public Task<Player> Modify(Guid id, ModifiedPlayer player)
+        public Task<Player> Modify(Guid id, Player player)
         {
             if(_players.ContainsKey(id))
             {
                 _players[id]._Name = player._Name;
+                return Task.FromResult(player);
             }
 
             return null;
         }
+
         public Task<Player> Delete(Guid id)
         {
             if(_players.ContainsKey(id))
@@ -56,6 +65,28 @@ namespace gameapi.Repositories
             }
 
             return null;
+        }
+
+        public Task<Item[]> GetAllItems(Guid playerid)
+        {
+            if(_players.ContainsKey(playerid) == false)
+            {
+                throw new NotFoundException();
+            }
+            return Task.FromResult(_players[playerid]._Items);
+        }
+
+        public Task<Item> CreateItem(Guid playerid, Item item)
+        {
+            Player player;
+            if(_players.ContainsKey(playerid) == false)
+            {
+                throw new NotFoundException();
+            }
+
+            _players[playerid]._Items.Append(item);
+            return Task.FromResult(item);
+            
         }
     }
 }

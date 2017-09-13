@@ -6,9 +6,9 @@ namespace gameapi.Processors
 {
     public class PlayerProcessor
     {
-        private PlayerInMemoryRepository _repository;
+        private readonly IPlayerRepository _repository;
 
-        public PlayerProcessor(PlayerInMemoryRepository repository)
+        public PlayerProcessor(IPlayerRepository repository)
         {
             _repository = repository;
         }
@@ -21,12 +21,12 @@ namespace gameapi.Processors
         {
             return await _repository.GetAll();
         }
-        public async Task<Player> Create(NewPlayer player)
+        public Task<Player> Create(NewPlayer player)
         {
             Player _player = new Player(Guid.NewGuid(), player._Name);
-            return await _repository.Create(_player);
+            return _repository.Create(_player);
         }
-        public async Task<Player> Modify(Guid id, ModifiedPlayer player)
+        public async Task<Player> Modify(Guid id, Player player)
         {
             return await _repository.Modify(id, player);
         }

@@ -1,30 +1,37 @@
 using System;
-using System.Globalization;
 using System.ComponentModel.DataAnnotations;
+using gameapi.ModelValidation;
 
 namespace gameapi.Models
 {
     public class Item
     {
-        [Required]
+        public Guid _ItemId {get; set;}
         public string _Name {get; set;}
-        [Range(1,70)]
-        public int _Level;
-        public int _Price;  
-        public DateTime _CreationDate;
 
-        public Item(string name, int level, int price, DateTime date)
-        {
-            _Name = name;
-            _Level = level;
-            _Price = price;
-            _CreationDate = date;
-        }
+        public string _Type {get; set;}
+
+        [Range(1,70)]
+        public int _Level {get; set;}
+        public int _Price {get; set;}       
+        public DateTime _CreationDate {get; set;}
+    }
+
+    public class ModifiedItem
+    {
+        public string _Name {get; set;}
     }
 
     public class NewItem
     {
+        [Required]
         public string _Name {get; set;}
+        [Required]
+        public string _Type {get; set;}
+
+        [MinimumItemLevel]
+        [Range(1,70)]
         public int _Level {get; set;}
+        public int? _Price {get; set;}       
     }
 }

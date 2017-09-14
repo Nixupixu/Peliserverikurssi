@@ -16,13 +16,6 @@ namespace gameapi.Repositories
     {
         Dictionary<Guid, Player> _players = new Dictionary<Guid, Player>();
 
-        public PlayerInMemoryRepository()
-        {
-             Player test = new Player(Guid.NewGuid(), "Testi");
-             Player test2 = new Player(Guid.NewGuid(), "Testi2");
-             _players.Add(test._id, test);
-             _players.Add(test2._id, test2);
-        }
         public Task<Player> Get(Guid id)
         {
             if(_players.ContainsKey(id) == false)
@@ -43,28 +36,26 @@ namespace gameapi.Repositories
             return Task.FromResult(player);
         }
 
-        public Task<Player> Modify(Guid id, Player player)
+        public Task<Player> Modify(Guid id, ModifiedPlayer player)
         {
-            if(_players.ContainsKey(id))
+            if(_players.ContainsKey(id) == false)
             {
-                _players[id]._Name = player._Name;
-                return Task.FromResult(player);
+                throw new NotFoundException();
             }
-
-            return null;
+            _players[id]._Name = player._Name;
+            return Task.FromResult(_players[id]);
         }
 
         public Task<Player> Delete(Guid id)
         {
-            if(_players.ContainsKey(id))
+            if(_players.ContainsKey(id) == false)
             {
-                Player _player = _players[id];
-                _players.Remove(id);
-
-                return Task.FromResult(_player);
+                throw new NotFoundException();
             }
+            Player _player = _players[id];
+            _players.Remove(id);
 
-            return null;
+            return Task.FromResult(_player);
         }
 
         public Task<Item[]> GetAllItems(Guid playerid)
@@ -73,20 +64,104 @@ namespace gameapi.Repositories
             {
                 throw new NotFoundException();
             }
-            return Task.FromResult(_players[playerid]._Items);
+
+            return Task.FromResult(_players[playerid]._Items.ToArray());
         }
 
-        public Task<Item> CreateItem(Guid playerid, Item item)
+        public Task<Item> GetItem(Guid playerid, Guid itemid)
         {
-            Player player;
             if(_players.ContainsKey(playerid) == false)
             {
                 throw new NotFoundException();
             }
 
-            _players[playerid]._Items.Append(item);
+            Item returnedItem = null;
+
+            foreach(Item i in _players[playerid]._Items)
+            {
+                if(i._ItemId == itemid)
+                {
+                    returnedItem = i;
+                    break;
+                }
+            }
+
+            if(returnedItem == null)
+            {
+                throw new ItemNotFoundException();
+            }
+
+            return Task.FromResult(returnedItem);
+        }
+
+        public Task<Item> CreateItem(Guid playerid, Item item)
+        {
+            if(_players.ContainsKey(playerid) == false)
+            {
+                throw new NotFoundException();
+            }
+
+            if(_players[playerid]._Level < item._Level)
+            {
+                throw new NotHighEnoughLevelException();
+            }
+
+            _players[playerid]._Items.Add(item);
             return Task.FromResult(item);
+        }
+
+        public Task<Item> ModifyItem(Guid playerid, Guid itemid, ModifiedItem item)
+        {
+            if(_players.ContainsKey(playerid) == false)
+            {
+                throw new NotFoundException();
+            }         
+
+            Item returnedItem = null;
+
+            foreach(Item i in _players[playerid]._Items)
+            {
+                if(i._ItemId == itemid)
+                {
+                    i._Name = item._Name;
+                    returnedItem = i;
+                    break;
+                }
+            }
             
+            if(returnedItem == null)
+            {
+                throw new ItemNotFoundException();
+            }
+
+            return Task.FromResult(returnedItem);
+        }
+
+        public Task<Item> DeleteItem(Guid playerid, Guid itemid)
+        {
+            if(_players.ContainsKey(playerid) == false)
+            {
+                throw new NotFoundException();
+            }
+
+            Item returnedItem = null;
+
+            foreach(Item i in _players[playerid]._Items)
+            {
+                if(i._ItemId == itemid)
+                {
+                    returnedItem = i;
+                    _players[playerid]._Items.Remove(i);
+                    break;
+                }
+            }
+
+            if(returnedItem == null)
+            {
+                throw new ItemNotFoundException();
+            }
+
+            return Task.FromResult(returnedItem);
         }
     }
 }

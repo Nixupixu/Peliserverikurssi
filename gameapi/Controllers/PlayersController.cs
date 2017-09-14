@@ -18,27 +18,25 @@ namespace gameapi.Controllers
 
         [HttpGet("{id}")]
         public async Task<Player> Get(Guid id){
-            Player player = await _processor.Get(id);
-            return player;
+            return await _processor.Get(id);
         }
 
         [HttpGet]
         public async Task<Player[]> GetAll()
         {
-            Player[] players = await _processor.GetAll();
-            return players;
+            return await _processor.GetAll();
         }
         
         [HttpPost]
-        //[ValidateModel]
+        [ValidateModel]
         public async Task<Player> Create([FromBody]NewPlayer player)
         {
-            Player _player = await _processor.Create(player);
-            return _player;
+            return await _processor.Create(player);
         }
+        
 
         [HttpPut("{id}")]
-        public async Task<Player> Modify(Guid id, [FromBody] Player player)
+        public async Task<Player> Modify(Guid id, [FromBody]ModifiedPlayer player)
         {
             return await _processor.Modify(id, player);
         }
@@ -46,8 +44,7 @@ namespace gameapi.Controllers
         [HttpDelete("{id}")]
         public async Task<Player> Delete(Guid id)
         {
-            Player _player = await _processor.Delete(id);
-            return _player;
+            return await _processor.Delete(id);
         }
     }
 }

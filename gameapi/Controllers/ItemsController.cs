@@ -1,8 +1,10 @@
-using gameapi.Processors;
-using gameapi.Models;
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+
+using gameapi.Processors;
+using gameapi.Models;
+using gameapi.ModelValidation;
 
 namespace gameapi.Controllers
 {
@@ -19,15 +21,31 @@ namespace gameapi.Controllers
         [HttpGet]
         public async Task<Item[]> GetAllItems(Guid playerid)
         {
-            Item[] items = await _processor.GetAllItems(playerid);
-            return items;
+            return await _processor.GetAllItems(playerid);
+        }
+
+        [HttpGet("{itemid}")]
+        public async Task<Item> GetItem(Guid playerid, Guid itemid)
+        {
+            return await _processor.GetItem(playerid, itemid);
         }
 
         [HttpPost]
-        public async Task<Item> CreateItem(Guid playerid, NewItem item)
+        public async Task<Item> CreateItem(Guid playerid, [FromBody] NewItem item)
         {
-            Item _item = await _processor.CreateItem(playerid, item);
-            return _item;
+            return await _processor.CreateItem(playerid, item);
+        }
+
+        [HttpPut("{itemid}")]
+        public async Task<Item> ModifyItem(Guid playerid, Guid itemid, [FromBody] ModifiedItem item)
+        {
+            return await _processor.ModifyItem(playerid, itemid, item);
+        }
+
+        [HttpDelete("{itemid}")]
+        public async Task<Item> DeleteItem(Guid playerid, Guid itemid)
+        {
+            return await _processor.DeleteItem(playerid, itemid);
         }
     }
 }

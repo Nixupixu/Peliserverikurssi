@@ -28,16 +28,18 @@ namespace gameapi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            //services.AddSingleton<PlayersController>();
+            services.AddSingleton<PlayersController>();
+            services.AddSingleton<ItemsController>();
             services.AddSingleton<PlayerProcessor>();
+            services.AddSingleton<ItemProcessor>();
             services.AddSingleton<IPlayerRepository, PlayerInMemoryRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            //loggerFactory.AddConsole();
-            //app.UseMiddleware<ErrorHandlingMiddleware>();
+            loggerFactory.AddConsole();
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             //app.UseDeveloperExceptionPage();
 
             if (env.IsDevelopment())

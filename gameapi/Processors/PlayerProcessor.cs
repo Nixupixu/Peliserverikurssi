@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using gameapi.Repositories;
+using gameapi.Models;
 
 namespace gameapi.Processors
 {
@@ -17,16 +18,24 @@ namespace gameapi.Processors
         {
             return await _repository.Get(id);
         }
+
         public async Task<Player[]> GetAll()
         {
             return await _repository.GetAll();
         }
+
         public Task<Player> Create(NewPlayer player)
         {
-            Player _player = new Player(Guid.NewGuid(), player._Name);
+            Player _player = new Player()
+            {
+                _id = Guid.NewGuid(),
+                _Name = player._Name,
+                _Level = 1
+            };
             return _repository.Create(_player);
         }
-        public async Task<Player> Modify(Guid id, Player player)
+        
+        public async Task<Player> Modify(Guid id, ModifiedPlayer player)
         {
             return await _repository.Modify(id, player);
         }

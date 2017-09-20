@@ -35,9 +35,11 @@ namespace gameapi.Processors
             return _repository.Create(_player);
         }
         
-        public async Task<Player> Modify(Guid id, ModifiedPlayer player)
+        public async Task<Player> Modify(Guid id, ModifiedPlayer modifiedPlayer)
         {
-            return await _repository.Modify(id, player);
+            Player player = await _repository.Get(id);
+            player._Name = modifiedPlayer._Name;
+            return await _repository.Modify(player);
         }
         public async Task<Player> Delete(Guid id)
         {

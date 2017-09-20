@@ -41,9 +41,11 @@ namespace gameapi.Processors
             return await _repository.CreateItem(playerid, _item);
         }
 
-        public async Task<Item> ModifyItem(Guid playerid, Guid itemid, ModifiedItem item)
+        public async Task<Item> ModifyItem(Guid playerid, Guid itemid, ModifiedItem modifiedItem)
         {
-            return await _repository.ModifyItem(playerid, itemid, item);
+            Item item = await _repository.GetItem(playerid, itemid);
+            item._Name = modifiedItem._Name;
+            return await _repository.ModifyItem(playerid, itemid, item);  
         }
 
         public async Task<Item> DeleteItem(Guid playerid, Guid itemid)

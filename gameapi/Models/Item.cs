@@ -19,6 +19,7 @@ namespace gameapi.Models
 
     public class ModifiedItem
     {
+        [Required]
         public string _Name {get; set;}
     }
 

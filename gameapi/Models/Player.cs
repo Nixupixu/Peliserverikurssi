@@ -16,6 +16,7 @@ namespace gameapi
 
     public class ModifiedPlayer
     {
+        [Required]
         public string _Name {get; set; }
     }
 

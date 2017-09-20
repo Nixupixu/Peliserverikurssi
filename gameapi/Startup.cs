@@ -12,6 +12,7 @@ using Microsoft.Extensions.Options;
 using gameapi.Processors;
 using gameapi.Repositories;
 using gameapi.Controllers;
+using gameapi.MongoDB;
 
 namespace gameapi
 {
@@ -28,11 +29,12 @@ namespace gameapi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddSingleton<PlayersController>();
-            services.AddSingleton<ItemsController>();
+            
             services.AddSingleton<PlayerProcessor>();
             services.AddSingleton<ItemProcessor>();
-            services.AddSingleton<IPlayerRepository, PlayerInMemoryRepository>();
+            //services.AddSingleton<IPlayerRepository, PlayerInMemoryRepository>();
+            services.AddSingleton<MongoDBClient>();
+            services.AddSingleton<IPlayerRepository, MongoDBRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

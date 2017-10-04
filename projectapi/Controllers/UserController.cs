@@ -4,11 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 
 using projectapi.Processors;
 using projectapi.Models;
+using projectapi.Exceptions;
 
 namespace projectapi.Controllers
 {
     [Route("/api/users")]
-    public class UserController
+    public class UserController : Controller
     {
         private UserProcessor _processor;
 
@@ -26,8 +27,26 @@ namespace projectapi.Controllers
             }
             else
             {
-                throw new NotImplementedException();
+                throw new InvalidInputException();
             }
+        }
+
+        [HttpPost]
+        public async Task<User> CreateUser([FromBody]NewUser user)
+        {
+            return await _processor.CreateUser(user);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<User> ModifyUser(Guid id, [FromBody]ModifiedUser user)
+        {
+             return await _processor.ModifyUser(id, user);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<User> RemoveUser(Guid id)
+        {
+            return await _processor.RemoveUser(id);
         }
     }
 }

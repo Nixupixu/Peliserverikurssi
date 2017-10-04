@@ -19,7 +19,8 @@ namespace projectapi
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .Build();
+            .ConfigureLogging((HostingContext, logging) => {logging.AddConsole();})
+            .UseStartup<Startup>()
+            .Build();
     }
 }

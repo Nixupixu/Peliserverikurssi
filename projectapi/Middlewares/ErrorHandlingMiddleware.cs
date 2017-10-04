@@ -2,9 +2,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
 using projectapi.Exceptions;
-using projectapi.Processors;
 
-namespace projectapi.Middlewares
+namespace projectapi
 {
     public class ErrorHandlingMiddleware
     {
@@ -17,41 +16,41 @@ namespace projectapi.Middlewares
 
         public async Task Invoke(HttpContext context)
         {
-            bool invalidInput = false;
-            bool userNotFound = false;
-            bool wrongPassword = false;
+            bool notFound = false;
+            bool notHighEnoughLevel = false;
+            bool itemNotFound = false;
 
             try
             {
                 await _next(context);
             }
-            catch(InvalidInputException)
-            {
-                context.Response.StatusCode = 400;
-                invalidInput = true;
-            }
-            catch(UserNotFoundException)
+            catch(NotFoundException)
             {
                 context.Response.StatusCode = 404;
-                userNotFound = true;
+                notFound = true;
             }
-            catch(WrongPasswordException)
+            catch(NotHighEnoughLevelException)
             {
-                context.Response.StatusCode = 403;
-                wrongPassword = true;
+                context.Response.StatusCode = 406;
+                notHighEnoughLevel = true;
+            }
+            catch(ItemNotFoundException)
+            {
+                context.Response.StatusCode = 404;
+                itemNotFound = true;
             }
 
-            if(invalidInput == true)
+            if(notFound == true)
             {
-                await context.Response.WriteAsync("Invalid input, check username and password");
+                await context.Response.WriteAsync("Could not find a player");
             }
-            if(userNotFound == true)
+            if(notHighEnoughLevel == true)
             {
-                await context.Response.WriteAsync("User could not be found");
+                await context.Response.WriteAsync("Player level not high enough");
             }
-            if(wrongPassword == true)
+            if(itemNotFound == true)
             {
-                await context.Response.WriteAsync("Invalid password, try again");
+                await context.Response.WriteAsync("Item not found");
             }
         }
     }

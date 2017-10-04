@@ -9,11 +9,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-using projectapi.Processors;
-using projectapi.Controllers;
-using projectapi.Repositories;
-using projectapi.MongoDB;
 using projectapi.Middlewares;
+using projectapi.Processors;
+using projectapi.Repositories;
+using projectapi.Controllers;
+using projectapi.MongoDB;
+using projectapi.Models;
 
 namespace projectapi
 {
@@ -29,12 +30,15 @@ namespace projectapi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.Configure<AuthKey>(Configuration);
 
-            services.AddSingleton<UserProcessor>();
-            services.AddSingleton<CharacterProcessor>();
+            services.AddMvc();
+            
+            services.AddSingleton<PlayerProcessor>();
+            services.AddSingleton<ItemProcessor>();
+            //services.AddSingleton<IPlayerRepository, PlayerInMemoryRepository>();
             services.AddSingleton<MongoDBClient>();
-            services.AddSingleton<IUserRepository, MongoDBRepository>();
+            services.AddSingleton<IPlayerRepository, MongoDBRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +46,8 @@ namespace projectapi
         {
             loggerFactory.AddConsole();
             app.UseMiddleware<ErrorHandlingMiddleware>();
+            app.UseMiddleware<AuthenticationMiddleware>();
+            //app.UseDeveloperExceptionPage();
 
             if (env.IsDevelopment())
             {

@@ -7,25 +7,27 @@ using projectapi.Models;
 
 namespace projectapi
 {
-    public class User
+    public class Player
     {
         [BsonId]
         public Guid _id {get; set;}
-
+        
         public string _Name {get; set;}
-        public string _Password {get; set;}
+        public int _Level {get;set;}
 
-        public List<Character> _Characters = new List<Character>();
+        public List<Item> _Items = new List<Item>();
+        public List<string> _Tags = new List<string>();
     }
 
-    public class ModifiedUser
+    public class ModifiedPlayer
     {
-        public string _Password {get; set;}
+        [Required]
+        public string _Name {get; set; }
     }
 
-    public class NewUser
+    public class NewPlayer
     {
+        [Required]
         public string _Name {get; set;}
-        public string _Password {get; set;}
     }
 }

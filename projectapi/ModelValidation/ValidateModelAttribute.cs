@@ -6,10 +6,17 @@ namespace projectapi.ModelValidation
 {
     public class ValidateModelAttribute : ActionFilterAttribute
     {
+        //private ILogger<ValidateModelAttribute> _logger;
+        // public ValidateModelAttribute(ILogger<ValidateModelAttribute> logger)
+        // {
+        //     _logger = logger;
+        // }
+
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             if(context.ModelState.IsValid == false)
             {
+                //_logger.LogInformation("Client sent illegal model");
                 context.Result = new BadRequestObjectResult(context.ModelState);
             }
         }

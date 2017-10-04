@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.Primitives;
@@ -22,7 +23,7 @@ namespace gameapi.Middlewares
             string apikey = _authKey.ApiKey;
             StringValues values;
 
-            bool apiKeyExists = context.Request.Headers.TryGetValue("API_KEY", out values);
+            bool apiKeyExists = context.Request.Headers.TryGetValue("x-api-key", out values);
             bool authorized = false;
 
             if(apiKeyExists)

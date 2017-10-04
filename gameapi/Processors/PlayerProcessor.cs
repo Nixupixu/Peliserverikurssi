@@ -39,7 +39,7 @@ namespace gameapi.Processors
         {
             Player player = await _repository.Get(id);
             player._Name = modifiedPlayer._Name;
-            return await _repository.Modify(id, player);
+            return await _repository.Modify(player);
         }
         public async Task<Player> Delete(Guid id)
         {

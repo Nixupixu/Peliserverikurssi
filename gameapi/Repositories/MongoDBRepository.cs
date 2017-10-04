@@ -1,9 +1,11 @@
 using System;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using MongoDB.Driver;
 
 using gameapi.Models;
 using gameapi.MongoDB;
+using gameapi.Exceptions;
 
 namespace gameapi.Repositories
 {
@@ -22,14 +24,36 @@ namespace gameapi.Repositories
         {
             var filter = Builders<Player>.Filter.Eq(p => p._id, playerid);
             var cursor = await _collection.FindAsync(filter);
-            var player = await cursor.FirstAsync();
-            return player;
+            bool playerFound = await cursor.AnyAsync();
+            if(playerFound)
+            {
+                cursor = await _collection.FindAsync(filter);
+                return await cursor.FirstAsync();
+            }
+            else
+            {
+                throw new NotFoundException();
+            }
         }
 
         public async Task<Player[]> GetAll()
         {
             var list = await _collection.Find(_ => true).ToListAsync();
             return list.ToArray();
+        }
+
+        public async Task<Player[]> GetPlayersByMinLevel(int? level)
+        {
+            FilterDefinition<Player> filter = Builders<Player>.Filter.Gte("_Level", level);
+            List<Player> players = await _collection.Find(filter).ToListAsync();
+            return players.ToArray();
+        }
+
+        public async Task<Player[]> GetPlayersByName(string name)
+        {
+            FilterDefinition<Player> filter = Builders<Player>.Filter.Eq("_Name", name);
+            List<Player> players = await _collection.Find(filter).ToListAsync();
+            return players.ToArray();
         }
 
         public async Task<Player> Create(Player player)
@@ -47,20 +71,15 @@ namespace gameapi.Repositories
 
         public async Task<Player> Delete(Guid playerid)
         {
+            Player player = await Get(playerid);
             var filter = Builders<Player>.Filter.Eq(p => p._id, playerid);
-            var cursor = await _collection.FindAsync(filter);
-            var player = await cursor.FirstAsync();
-
             await _collection.DeleteOneAsync(filter);
             return player;
         }
 
         public async Task<Item[]> GetAllItems(Guid playerid)
         {
-            var filter = Builders<Player>.Filter.Eq(p => p._id, playerid);
-            var cursor = await _collection.FindAsync(filter);
-            var player = await cursor.FirstAsync();
-
+            Player player = await Get(playerid);
             return player._Items.ToArray();
         }
 
@@ -70,6 +89,7 @@ namespace gameapi.Repositories
             var cursor = await _collection.FindAsync(filter);
             var player = await cursor.FirstAsync();
 
+            //_collection.FindOneAndUpdateAsync()
             return player._Items.Find(i => i._ItemId == itemid);
         }
 

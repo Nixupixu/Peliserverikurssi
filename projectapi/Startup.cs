@@ -9,13 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-using gameapi.Middlewares;
-using gameapi.Processors;
-using gameapi.Repositories;
-using gameapi.Controllers;
-using gameapi.MongoDB;
-
-namespace gameapi
+namespace projectapi
 {
     public class Startup
     {
@@ -30,22 +24,11 @@ namespace gameapi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            
-            services.AddSingleton<PlayerProcessor>();
-            services.AddSingleton<ItemProcessor>();
-            //services.AddSingleton<IPlayerRepository, PlayerInMemoryRepository>();
-            services.AddSingleton<MongoDBClient>();
-            services.AddSingleton<IPlayerRepository, MongoDBRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            loggerFactory.AddConsole();
-            app.UseMiddleware<ErrorHandlingMiddleware>();
-            app.UseMiddleware<AuthenticationMiddleware>();
-            //app.UseDeveloperExceptionPage();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -22,9 +22,23 @@ namespace gameapi.Controllers
         }
 
         [HttpGet]
-        public async Task<Player[]> GetAll()
+        public async Task<Player[]> GetAll(int? level, string name)
         {
-            return await _processor.GetAll();
+            //Assignment 5.1
+            if(level.HasValue)
+            {
+                return await _processor.GetPlayersByMinLevel(level);
+                //call some other method
+            }
+            //Assignment 5.2
+            else if(string.IsNullOrEmpty(name) == false)
+            {
+                return await _processor.GetPlayersByName(name);
+            }
+            else
+            {
+                return await _processor.GetAll();
+            } 
         }
         
         [HttpPost]

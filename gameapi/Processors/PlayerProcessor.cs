@@ -39,11 +39,21 @@ namespace gameapi.Processors
         {
             Player player = await _repository.Get(id);
             player._Name = modifiedPlayer._Name;
-            return await _repository.Modify(player);
+            return await _repository.Modify(id, player);
         }
         public async Task<Player> Delete(Guid id)
         {
             return await _repository.Delete(id);
+        }
+
+        public async Task<Player[]> GetPlayersByMinLevel(int? level)
+        {
+            return await _repository.GetPlayersByMinLevel(level);
+        }
+
+        public async Task<Player[]> GetPlayersByName(string name)
+        {
+            return await _repository.GetPlayersByName(name);
         }
     }
 }

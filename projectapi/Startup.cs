@@ -35,7 +35,8 @@ namespace projectapi
             services.AddMvc();
             
             services.AddSingleton<PlayerProcessor>();
-            services.AddSingleton<ItemProcessor>();
+            services.AddSingleton<CharacterProcessor>();
+            //services.AddSingleton<ItemProcessor>();
             //services.AddSingleton<IPlayerRepository, PlayerInMemoryRepository>();
             services.AddSingleton<MongoDBClient>();
             services.AddSingleton<IPlayerRepository, MongoDBRepository>();
@@ -45,8 +46,8 @@ namespace projectapi
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole();
-            app.UseMiddleware<ErrorHandlingMiddleware>();
             app.UseMiddleware<AuthenticationMiddleware>();
+            app.UseMiddleware<ErrorHandlingMiddleware>();
             //app.UseDeveloperExceptionPage();
 
             if (env.IsDevelopment())

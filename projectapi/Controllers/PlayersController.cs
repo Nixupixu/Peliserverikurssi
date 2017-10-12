@@ -7,7 +7,7 @@ using projectapi.Processors;
 
 namespace projectapi.Controllers
 {
-    [Route("/api/players")]
+    [Route("/api/users")]
     public class PlayersController : Controller
     {
         private PlayerProcessor _processor;
@@ -23,15 +23,11 @@ namespace projectapi.Controllers
         }
 
         [HttpGet]
-        public async Task<Player[]> GetAll(int? level, string name)
+        public async Task<Player[]> GetAll(string username)
         {
-            if(level.HasValue)
+            if(string.IsNullOrEmpty(username) == false)
             {
-                return await _processor.GetPlayersByMinLevel(level);
-            }
-            else if(string.IsNullOrEmpty(name) == false)
-            {
-                return await _processor.GetPlayersByName(name);
+                return await _processor.GetPlayersByName(username);
             }
             else
             {

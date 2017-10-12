@@ -30,30 +30,54 @@ namespace gameapi.Processors
             {
                 _id = Guid.NewGuid(),
                 _Name = player._Name,
-                _Level = 1
+                _Level = 1,
+                _Score = 0
             };
             return _repository.Create(_player);
         }
         
         public async Task<Player> Modify(Guid id, ModifiedPlayer modifiedPlayer)
         {
-            Player player = await _repository.Get(id);
-            player._Name = modifiedPlayer._Name;
-            return await _repository.Modify(player);
+            return await _repository.Modify(id, modifiedPlayer._Name);
         }
         public async Task<Player> Delete(Guid id)
         {
             return await _repository.Delete(id);
         }
 
-        public async Task<Player[]> GetPlayersByMinLevel(int? level)
+        public async Task<Player[]> GetPlayersByMinScore(int score)
         {
-            return await _repository.GetPlayersByMinLevel(level);
+            return await _repository.GetPlayersByMinScore(score);
         }
 
-        public async Task<Player[]> GetPlayersByName(string name)
+        public async Task<Player> GetPlayerByName(string name)
         {
-            return await _repository.GetPlayersByName(name);
+            return await _repository.GetPlayerByName(name);
+        }
+
+        public async Task<Player[]> GetPlayersByProperty(string property)
+        {
+            return await _repository.GetPlayersByProperty(property);
+        }
+
+        public async Task<Player[]> GetAllBySize(int size)
+        {
+            return await _repository.GetAllBySize(size);
+        }
+
+        public async Task<Player[]> GetPlayersByTag(string tag)
+        {
+            return await _repository.GetPlayersByTag(tag);
+        }
+
+        public async Task<int> GetCommonPlayerLevel()
+        {
+            return await _repository.GetCommonPlayerLevel();
+        }
+
+        public async Task<Player> AddScore(Guid id, int score)
+        {
+            return await _repository.AddScore(id, score);
         }
     }
 }

@@ -47,5 +47,11 @@ namespace gameapi.Controllers
         {
             return await _processor.DeleteItem(playerid, itemid);
         }
+
+        [HttpDelete("{itemid}/removeitem/{amount}")]
+        public async Task<Player> RemoveItem(Guid itemid, int amount)
+        {
+            return await _processor.RemoveItem(itemid, amount);
+        }
     }
 }

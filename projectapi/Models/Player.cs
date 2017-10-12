@@ -13,10 +13,10 @@ namespace projectapi
         public Guid _id {get; set;}
         
         public string _Name {get; set;}
-        public int _Level {get;set;}
+        public string _Password {get; set;}
 
-        public List<Item> _Items = new List<Item>();
-        public List<string> _Tags = new List<string>();
+        //public List<Item> _Items = new List<Item>();
+        public List<Character> _Characters = new List<Character>();
     }
 
     public class ModifiedPlayer
@@ -29,5 +29,7 @@ namespace projectapi
     {
         [Required]
         public string _Name {get; set;}
+        [Required]
+        public string _Password;
     }
 }

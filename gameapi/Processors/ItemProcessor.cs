@@ -52,5 +52,10 @@ namespace gameapi.Processors
         {
             return await _repository.DeleteItem(playerid, itemid);
         }
+
+        public async Task<Player> RemoveItem(Guid itemid, int amount)
+        {
+            return await _repository.RemoveItem(itemid, amount);
+        }
     }
 }

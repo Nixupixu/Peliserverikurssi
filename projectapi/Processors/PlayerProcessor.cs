@@ -25,15 +25,15 @@ namespace projectapi.Processors
             return await _repository.GetAll();
         }
 
-        public Task<Player> Create(NewPlayer player)
+        public async Task<Player> Create(NewPlayer player)
         {
             Player _player = new Player()
             {
                 _id = Guid.NewGuid(),
                 _Name = player._Name,
-                _Level = 1
+                _Password = player._Password
             };
-            return _repository.Create(_player);
+            return await _repository.Create(_player);
         }
         
         public async Task<Player> Modify(Guid id, ModifiedPlayer modifiedPlayer)

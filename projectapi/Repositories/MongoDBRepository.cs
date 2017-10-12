@@ -17,7 +17,7 @@ namespace projectapi.Repositories
         {
             IMongoDatabase database = client.GetDatabase("game");
 
-            _collection = database.GetCollection<Player>("players");
+            _collection = database.GetCollection<Player>("users");
         }
 
         public async Task<Player> Get(Guid playerid)
@@ -77,60 +77,64 @@ namespace projectapi.Repositories
             return player;
         }
 
-        public async Task<Item[]> GetAllItems(Guid playerid)
+        public async Task<Character[]> GetAllChars(Guid playerid)
         {
             Player player = await Get(playerid);
-            return player._Items.ToArray();
+            return player._Characters.ToArray();
         }
 
-        public async Task<Item> GetItem(Guid playerid, Guid itemid)
+        public async Task<Character[]> GetAllCharsByUsername(string username)
+        {
+            FilterDefinition<Player> filter = Builders<Player>.Filter.Eq("_Name", username);
+            Player players = await _collection.Find(filter).FirstAsync();
+            return players._Characters.ToArray();
+        }
+
+        public async Task<Character> GetChar(Guid playerid, Guid charid)
         {
             var filter = Builders<Player>.Filter.Eq(p => p._id, playerid);
             var cursor = await _collection.FindAsync(filter);
             var player = await cursor.FirstAsync();
 
-            //_collection.FindOneAndUpdateAsync()
-            return player._Items.Find(i => i._ItemId == itemid);
+            return player._Characters.Find(i => i._CharId == charid);
         }
 
-        public async Task<Item> CreateItem(Guid playerid, Item item)
+        public async Task<Character> CreateChar(Guid playerid, Character character)
         {
             var filter = Builders<Player>.Filter.Eq(p => p._id, playerid);
             var cursor = await _collection.FindAsync(filter);
             var player = await cursor.FirstAsync();
 
-            player._Items.Add(item);
+            player._Characters.Add(character);
             await _collection.ReplaceOneAsync(filter, player);
-            return item;
+            return character;
         }
 
-        public async Task<Item> ModifyItem(Guid playerid, Guid itemid, Item item)
+        public async Task<Character> ModifyChar(Guid playerid, Guid charid, Character character)
         {
             var filter = Builders<Player>.Filter.Eq(p => p._id, playerid);
             var cursor = await _collection.FindAsync(filter);
             var player = await cursor.FirstAsync();
 
-            Item modifiedItem = player._Items.Find(i => i._ItemId == itemid);
-            player._Items.Remove(modifiedItem);
-            player._Items.Add(item);
-
-            await _collection.ReplaceOneAsync(filter, player);
-            return item;
-        }
-        
-        public async Task<Item> DeleteItem(Guid playerid, Guid itemid)
-        {
-            var filter = Builders<Player>.Filter.Eq(p => p._id, playerid);
-            var cursor = await _collection.FindAsync(filter);
-            var player = await cursor.FirstAsync();
-
-            Item deletedItem = player._Items.Find(i => i._ItemId == itemid);
-            player._Items.Remove(deletedItem);
+            Character modifiedChar = player._Characters.Find(i => i._CharId == charid);
+            player._Characters.Remove(modifiedChar);
+            player._Characters.Add(character);
 
             await _collection.ReplaceOneAsync(filter, player);
-            return deletedItem;
+            return character;
         }
 
-        
+        public async Task<Character> DeleteChar(Guid playerid, Guid charid)
+        {
+            var filter = Builders<Player>.Filter.Eq(p => p._id, playerid);
+            var cursor = await _collection.FindAsync(filter);
+            var player = await cursor.FirstAsync();
+
+            Character deletedChar = player._Characters.Find(i => i._CharId == charid);
+            player._Characters.Remove(deletedChar);
+
+            await _collection.ReplaceOneAsync(filter, player);
+            return deletedChar;
+        }
     }
 }

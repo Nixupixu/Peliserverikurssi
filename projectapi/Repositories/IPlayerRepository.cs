@@ -14,13 +14,12 @@ namespace projectapi.Repositories
         Task<Player> Create(Player player);
         Task<Player> Modify(Player player);
         Task<Player> Delete(Guid id);
-        
 
-        Task<Item[]> GetAllItems(Guid playerid);
-        Task<Item> GetItem(Guid playerid, Guid itemid);
-        Task<Item> CreateItem(Guid playerid, Item item);
-        Task<Item> ModifyItem(Guid playerid, Guid itemid, Item item);
-        Task<Item> DeleteItem(Guid playerid, Guid itemid);
-        
+        Task<Character[]> GetAllChars(Guid playerid);
+        Task<Character[]> GetAllCharsByUsername(string username);
+        Task<Character> GetChar(Guid playerid, Guid charid);
+        Task<Character> CreateChar(Guid playerid, Character character);
+        Task<Character> ModifyChar(Guid playerid, Guid charid, Character character);
+        Task<Character> DeleteChar(Guid playerid, Guid charid);
     }
 }

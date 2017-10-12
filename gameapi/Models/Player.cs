@@ -14,6 +14,7 @@ namespace gameapi
         
         public string _Name {get; set;}
         public int _Level {get;set;}
+        public int _Score {get; set;}
 
         public List<Item> _Items = new List<Item>();
         public List<string> _Tags = new List<string>();

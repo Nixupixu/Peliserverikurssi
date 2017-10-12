@@ -17,8 +17,6 @@ namespace projectapi
         public async Task Invoke(HttpContext context)
         {
             bool notFound = false;
-            bool notHighEnoughLevel = false;
-            bool itemNotFound = false;
 
             try
             {
@@ -29,28 +27,10 @@ namespace projectapi
                 context.Response.StatusCode = 404;
                 notFound = true;
             }
-            catch(NotHighEnoughLevelException)
-            {
-                context.Response.StatusCode = 406;
-                notHighEnoughLevel = true;
-            }
-            catch(ItemNotFoundException)
-            {
-                context.Response.StatusCode = 404;
-                itemNotFound = true;
-            }
 
             if(notFound == true)
             {
                 await context.Response.WriteAsync("Could not find a player");
-            }
-            if(notHighEnoughLevel == true)
-            {
-                await context.Response.WriteAsync("Player level not high enough");
-            }
-            if(itemNotFound == true)
-            {
-                await context.Response.WriteAsync("Item not found");
             }
         }
     }

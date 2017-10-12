@@ -17,6 +17,7 @@ namespace gameapi.Repositories
         Task<Player> Modify(Guid id, string name);
         Task<Player> Delete(Guid id);
         Task<Player> AddScore(Guid id, int score);
+        Task<Player> AddTag(Guid id, string tag);
 
         Task<Item[]> GetAllItems(Guid playerid);
         Task<Item> GetItem(Guid playerid, Guid itemid);

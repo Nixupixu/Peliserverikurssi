@@ -56,21 +56,14 @@ namespace gameapi.Repositories
         {
             FilterDefinition<Player> filter = Builders<Player>.Filter.Eq(p => p._Name, name);
             var cursor = await _collection.FindAsync(filter);
-            Player player = await cursor.FirstAsync();
+            Player player = await cursor.FirstOrDefaultAsync();
             return player;
         }
 
         public async Task<Player[]> GetPlayersByTag(string tag)
         {
-            var players = await _collection.Find(_ => true).ToListAsync();
-            List<Player> list = new List<Player>();
-            foreach(Player p in players)
-            {
-                if(p._Tags.Contains(tag) == true)
-                {
-                    list.Add(p);
-                }
-            }
+            var filter = Builders<Player>.Filter.AnyEq(p => p._Tags, tag);
+            var list = await _collection.Find(filter).ToListAsync();
             return list.ToArray();
         }
 
@@ -98,7 +91,7 @@ namespace gameapi.Repositories
         {
             var filter = Builders<Player>.Filter.Eq(p => p._id, id);
             var update = Builders<Player>.Update.Set(p => p._Name, name);
-            return await _collection.FindOneAndUpdateAsync(filter, update);
+            return await _collection.FindOneAndUpdateAsync(filter, update); //TODO
         }
 
         public async Task<Player> Delete(Guid playerid)
@@ -114,6 +107,14 @@ namespace gameapi.Repositories
             var filter = Builders<Player>.Filter.Eq(p => p._id, id);
             var update = Builders<Player>.Update.Inc(p => p._Score, score);
             return await _collection.FindOneAndUpdateAsync(filter, update);
+        }
+
+        public async Task<Player> AddTag(Guid id, string tag)
+        {
+            var filter = Builders<Player>.Filter.Eq(p => p._id, id);
+            var update = Builders<Player>.Update.Push(p => p._Tags, tag);
+            var options = new FindOneAndUpdateOptions<Player, Player> { ReturnDocument = ReturnDocument.After };
+            return await _collection.FindOneAndUpdateAsync(filter, update, options);
         }
 
         public async Task<Item[]> GetAllItems(Guid playerid)

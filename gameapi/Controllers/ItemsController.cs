@@ -53,5 +53,8 @@ namespace gameapi.Controllers
         {
             return await _processor.RemoveItem(itemid, amount);
         }
+
+        //[HttpGet("differentprices")]
+        
     }
 }

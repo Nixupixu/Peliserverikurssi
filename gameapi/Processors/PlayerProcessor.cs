@@ -79,5 +79,10 @@ namespace gameapi.Processors
         {
             return await _repository.AddScore(id, score);
         }
+
+        public async Task<Player> AddTag(Guid id, string tag)
+        {
+            return await _repository.AddTag(id, tag);
+        }
     }
 }

@@ -87,6 +87,12 @@ namespace gameapi.Controllers
             return await _processor.Modify(id, player);
         }
 
+        [HttpPut("{id:Guid}/addtag/{tag}")]
+        public async Task<Player> AddTag(Guid id, string tag)
+        {
+            return await _processor.AddTag(id, tag);
+        }
+
         [HttpDelete("{id}")]
         public async Task<Player> Delete(Guid id)
         {
